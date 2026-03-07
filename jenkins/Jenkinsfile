@@ -3,12 +3,6 @@ pipeline {
 
  stages {
 
-  stage('Clone Repo') {
-   steps {
-    git 'https://github.com/akshat123456-ab/devops-end-to-end-project.git'
-   }
-  }
-
   stage('Build Docker Image') {
    steps {
     sh 'docker build -t devops-app ./app'
