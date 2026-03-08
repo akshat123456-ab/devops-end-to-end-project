@@ -1,0 +1,25 @@
+---
+- hosts: app
+  become: yes
+
+  tasks:
+
+  - name: install docker
+    apt:
+      name: docker.io
+      state: present
+      update_cache: yes
+
+  - name: start docker
+    service:
+      name: docker
+      state: started
+      enabled: true
+
+  - name: deploy devops app container
+    docker_container:
+      name: devops-app
+      image: devops-app
+      state: started
+      ports:
+        - "3000:3000"
