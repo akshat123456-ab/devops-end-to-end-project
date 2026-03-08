@@ -11,6 +11,10 @@ provider "docker" {}
 
 resource "docker_network" "devops_network" {
   name = "devops-network"
+
+  lifecycle {
+    ignore_changes = all
+  }
 }
 
 resource "docker_container" "elasticsearch" {
