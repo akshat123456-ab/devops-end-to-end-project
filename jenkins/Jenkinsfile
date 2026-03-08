@@ -3,8 +3,6 @@ pipeline {
 
  stages {
 
-<<<<<<< HEAD
-=======
   stage('Checkout Code') {
    steps {
     git 'https://github.com/akshat123456-ab/devops-end-to-end-project.git'
@@ -23,22 +21,15 @@ pipeline {
    }
   }
 
->>>>>>> c8c820f (add terraform and ansible pipeline)
   stage('Build Docker Image') {
    steps {
     sh 'docker build -t devops-app ./app'
    }
   }
 
-<<<<<<< HEAD
-  stage('Run Container') {
-   steps {
-    sh 'docker run -d -p 3000:3000 devops-app'
-=======
   stage('Run Ansible Playbook') {
    steps {
     sh 'ansible-playbook -i ansible/inventory ansible/playbook.yml'
->>>>>>> c8c820f (add terraform and ansible pipeline)
    }
   }
 
