@@ -8,9 +8,13 @@ pipeline {
 
  stages {
 
-  stage('Clean Docker Network') {
+  stage('Clean Docker Environment') {
    steps {
-    sh 'docker network rm devops-network || true'
+    sh '''
+    docker rm -f kibana || true
+    docker rm -f elasticsearch || true
+    docker network rm devops-network || true
+    '''
    }
   }
 
@@ -35,6 +39,18 @@ pipeline {
   stage('Tag Docker Image') {
    steps {
     sh 'docker tag $IMAGE_NAME $DOCKERHUB_USER/$IMAGE_NAME:latest'
+   }
+  }
+
+  stage('Docker Login') {
+   steps {
+    withCredentials([usernamePassword(
+      credentialsId: 'dockerhub-creds',
+      usernameVariable: 'DOCKER_USER',
+      passwordVariable: 'DOCKER_PASS'
+    )]) {
+     sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+    }
    }
   }
 
